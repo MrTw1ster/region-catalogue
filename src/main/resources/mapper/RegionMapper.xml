@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ru.telda.ru.telda.mapper.RegionMapper">
+    <resultMap id="BaseResultMap" type="ru.telda.entity.Region">
+        <result column="id" property="id" />
+        <result column="region" property="title" />
+        <result column="abbreviation" property="abb" />
+    </resultMap>
+
+    <parameterMap id="User" type="ru.telda.entity.Region"/>
+
+    <sql id="Base_Column_List">
+        id, region, abb
+    </sql>
+
+
+    <select id="getAllRegion" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from region
+    </select>
+
+
+    <select id="getRegionById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from region
+        where id = #{id}
+    </select>
+
+
+    <insert id="addRegion" parameterMap="Region" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            region
+            (title,abb)
+        values
+            (#{title},#{abb})
+    </insert>
+
+    <update id="updateRegion" parameterMap="User">
+        update
+        region
+        set
+        <if test="title!=null">
+            title = #{title},
+        </if>
+        <if test="abb!=null">
+            abb = #{abb},
+        </if>
+        where
+        id = #{id}
+    </update>
+
+
+    <delete id="deleteRegionById" parameterType="java.lang.Integer">
+        delete from
+            user
+        where
+            id = #{id}
+    </delete>
+</mapper>
